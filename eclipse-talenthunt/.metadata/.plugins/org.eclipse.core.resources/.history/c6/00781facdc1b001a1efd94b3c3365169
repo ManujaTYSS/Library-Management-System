@@ -1,0 +1,32 @@
+package com.tyss.talunthunt;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.tyss.talunthunt.controller.AddRequirementController;
+@RunWith(SpringRunner.class)
+@WebMvcTest(AddRequirementController.class)
+//@SpringBootTest
+class ControllerAddReqTest {
+	@Autowired
+	private MockMvc mockMvc;
+	@Test
+	public void getReq() throws Exception {
+		mockMvc.perform(get("/addrequirement")).andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(jsonPath("$.clientId").value("TY_TYSS_jfs_1")).andExpect(jsonPath("$.client").value("TYSS"))
+				.andExpect(jsonPath("$.technology").value("jfs")).andExpect(jsonPath("$.yoe").value(3.5)).andExpect(jsonPath("$.location").value("bangalore")).andExpect(jsonPath("$.nop").value(25))
+				.andExpect(jsonPath("$.odate").value("2019-05-12")).andExpect(jsonPath("$.cdate").value("2019-05-21")).andExpect(jsonPath("$.role").value("developer")).andExpect(jsonPath("$.rate").value(3.5)).andExpect(jsonPath("$.jd").value("bangalore good communication"));
+
+	}
+
+}

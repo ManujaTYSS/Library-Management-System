@@ -1,0 +1,7 @@
+package com.tyss.talenthunt.service;
+
+import com.tyss.talenthunt.dto.AddRequirment;
+
+public interface AddRequirmentServiceInterface {
+	public boolean  addRequirment(AddRequirment addrequirment); 
+}

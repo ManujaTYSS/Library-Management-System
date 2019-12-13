@@ -1,0 +1,131 @@
+package com.tyss.talunthunt;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tyss.talunthunt.dto.AddRequirements;
+import com.tyss.talunthunt.dto.Response;
+
+//@ExtendWith(MockitoExtension.class)
+//@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class ControllerTest {
+
+
+	//	 new AddRequirements("2018-11-13","Tyss","vikas","FRONT END DESIGN TECHNOLOGY LIKE ANGULRA, NODE , CSS, JS,TS","usa",120,"2018-10-01",3.5,"FRONT END DEVELOPER","full stack"
+	//	 public void registerAddrequirementTest() {
+	//		 when(requirment.addrequirement(reqinfo)
+	//	 }
+
+//	@Autowired
+//	private ServiceDAO controller;
+//	@MockBean
+//	private AddRequirementInfoDAO requirment;
+
+//
+//	 @Test
+//		 public void getAllRequirment() {
+//		 List<AddRequirements> list = new ArrayList<AddRequirements>();
+//		 AddRequirements a1 = new AddRequirements();
+//	//when(requirment.getAllRequirements().thenReturn(Stream.of()).collect(Collectors.toList())));
+//		 a1.setCdate(new Date());
+//		 a1.setClient("tyss");
+//		 a1.setJd("good communication");
+//		 a1.setClientId("ty_1");
+//		 a1.setContact("vikas");
+//		 a1.setOdate(new Date());
+//		 a1.setNop(23);
+//		 a1.setRate(3.5);
+//		 a1.setRole("developer");
+//		 a1.setTechnology("java full stack");
+//		 a1.setLocation("Bangalore");
+//		 list.add(a1);
+//		 when(requirment.getAllRequirements()).thenReturn(list);
+//		 AddRequirements result = controller.addrequirement(a1);
+//		assertEquals(1, requirment.getAllRequirements().size());
+//	 }
+
+//	@Autowired
+//	private MockMvc mvc;
+//	@Autowired
+//	private Response response;
+//	@Test
+//	public void getAllReq() throws Exception 
+//	{
+//
+//		mvc.perform( MockMvcRequestBuilders
+//				.get("/get-all")
+//				.accept(MediaType.APPLICATION_JSON))
+//		.andDo(print())
+//		.andExpect(status().isOk())
+//		.andExpect(MockMvcResultMatchers.jsonPath("$.get-all").exists())
+//		.andExpect(MockMvcResultMatchers.jsonPath("$.get-all[*].clientId").isNotEmpty());
+//	}
+	 
+
+	private MockMvc mockMvc;
+	@Autowired
+	private WebApplicationContext context;
+	
+	ObjectMapper om = new ObjectMapper();
+	
+	@Before
+	public void setUp() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+	}
+	@Before
+	public void init() {
+	    MockitoAnnotations.initMocks(this);
+	}
+	
+	
+	@Test
+	public void addTest() throws Exception {
+		AddRequirements a1 = new AddRequirements();
+		a1.setCdate(new Date());
+		 a1.setClient("tyss");
+		 a1.setJd("good communication");
+		 a1.setClientId("ty_1");
+		 a1.setContact("vikas");
+		 a1.setOdate(new Date());
+		 a1.setNop(23);
+		 a1.setRate(3.5);
+		 a1.setRole("developer");
+		 a1.setTechnology("java full stack");
+		 a1.setLocation("Bangalore");
+		 String jsonRequest = om.writeValueAsString(a1);
+		 MvcResult result = mockMvc.perform(post("/talenthunt/addrequirement").content(jsonRequest)
+					.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk()).andReturn();
+			String resultContent = result.getResponse().getContentAsString();
+			Response response = om.readValue(resultContent, Response.class);
+			Assert.assertTrue(response.isStatus()==Boolean.TRUE);
+	}
+
+
+
+
+
+
+
+
+
+
+}

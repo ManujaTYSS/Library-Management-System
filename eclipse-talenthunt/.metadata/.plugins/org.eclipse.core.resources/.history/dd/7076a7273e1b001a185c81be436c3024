@@ -1,0 +1,89 @@
+package com.tyss.talunthunt;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tyss.talunthunt.dto.AddRequirements;
+import com.tyss.talunthunt.dto.Response;
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class ControllerTest {
+
+
+	private MockMvc mockMvc;
+	@Autowired
+	private WebApplicationContext context;
+
+	ObjectMapper om = new ObjectMapper();
+
+	@Before
+	public void setUp() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+	}
+	@Before
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+	}
+
+
+	@Test
+	public void addTest() throws Exception {
+		AddRequirements a1 = new AddRequirements();
+		a1.setCdate(new Date());
+		a1.setClient("tyss");
+		a1.setJd("good communication");
+		a1.setClientId("ty_1");
+		a1.setContact("vikas");
+		a1.setOdate(new Date());
+		a1.setNop(23);
+		a1.setRate(3.5);
+		a1.setRole("developer");
+		a1.setTechnology("java full stack");
+		a1.setLocation("Bangalore");
+		String jsonRequest = om.writeValueAsString(a1);
+		MvcResult result = mockMvc.perform(post("/talenthunt/addrequirement").content(jsonRequest)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk()).andReturn();
+		String resultContent = result.getResponse().getContentAsString();
+		Response response = om.readValue(resultContent, Response.class);
+		Assert.assertTrue(response.isStatus()==Boolean.TRUE);
+	}
+
+
+	@Test
+	public void testEmployee() throws Exception {
+		mockMvc.perform(get("/addrequirement")).andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"))
+				.andExpect(jsonPath("$.name").value("emp1")).andExpect(jsonPath("$.designation").value("manager"))
+				.andExpect(jsonPath("$.empId").value("1")).andExpect(jsonPath("$.salary").value(3000));
+
+	}
+
+
+
+
+
+
+
+}

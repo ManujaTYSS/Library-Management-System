@@ -1,0 +1,7 @@
+package com.tyss.talenthunt.dao;
+
+import com.tyss.talenthunt.dto.AddRequirment;
+
+public interface AddRequirmentDAO {
+	public boolean addRequirment(AddRequirment addRequirment);
+}

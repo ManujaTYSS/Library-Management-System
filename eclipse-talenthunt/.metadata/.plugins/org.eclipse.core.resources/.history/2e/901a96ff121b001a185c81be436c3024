@@ -1,0 +1,44 @@
+package com.tyss.talunthunt;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.OngoingStubbing;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.tyss.talunthunt.dao.AddRequirementDAOImpl;
+import com.tyss.talunthunt.dto.AddRequirements;
+import com.tyss.talunthunt.service.ServiceDAOImpl;
+
+@ExtendWith(MockitoExtension.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class ControllerTest {
+	@Autowired
+	private ServiceDAOImpl service;
+	 @MockBean
+	private AddRequirementDAOImpl requirment;
+	 
+//	 new AddRequirements("2018-11-13","Tyss","vikas","FRONT END DESIGN TECHNOLOGY LIKE ANGULRA, NODE , CSS, JS,TS","usa",120,"2018-10-01",3.5,"FRONT END DEVELOPER","full stack"
+//	 public void registerAddrequirementTest() {
+//		 when(requirment.addrequirement(reqinfo)
+//	 }
+	 List<AddRequirements> list = new ArrayList<AddRequirements>();
+	
+ @Test
+	 public void getAllRequirment() {
+//when(requirment.getAllRequirements().thenReturn(Stream.of()).collect(Collectors.toList())));
+	 when(((OngoingStubbing) requirment.getAllRequirements()).thenReturn(list));
+	assertEquals(1, service.getAllRequirements().size());
+ }
+}

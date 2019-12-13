@@ -1,0 +1,61 @@
+package com.tyss.talunthunt;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+import com.tyss.talunthunt.dto.AddRequirements;
+
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes = {TestContext.class, WebApplicationContext.class})
+//@WebAppConfiguration
+@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+public class TestingClass {
+	  @LocalServerPort
+	    int randomServerPort;
+		     
+	  @Test
+	    public void addReqTest() throws URISyntaxException 
+	    {
+	        RestTemplate restTemplate = new RestTemplate();
+	        final String baseUrl = "http://localhost:"+randomServerPort+"/get-all/";
+	        URI uri = new URI(baseUrl);
+	      List<AddRequirements> list = new ArrayList<AddRequirements>();
+			 AddRequirements a1 = new AddRequirements();
+		//when(requirment.getAllRequirements().thenReturn(Stream.of()).collect(Collectors.toList())));
+			 a1.setCdate(new Date());
+			 a1.setClient("tyss");
+			 a1.setJd("good communication");
+			 a1.setClientId("ty_1");
+			 a1.setContact("vikas");
+			 a1.setOdate(new Date());
+			 a1.setNop(23);
+			 a1.setRate(3.5);
+			 a1.setRole("developer");
+			 a1.setTechnology("java full stack");
+			 a1.setLocation("Bangalore");
+			 list.add(a1);
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("X-COM-PERSIST", "true");      
+	 
+	        HttpEntity<List<AddRequirements>> request = new HttpEntity<List<AddRequirements>>(list, headers);
+	         
+	        ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+	         
+	        //Verify request succeed
+	        Assertions.assertEquals(201, result.getStatusCodeValue());
+	    }
+	     
+}

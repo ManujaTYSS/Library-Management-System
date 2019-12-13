@@ -1,0 +1,18 @@
+package com.tyss.talenthunt.service;
+
+import org.springframework.stereotype.Service;
+
+import com.tyss.talenthunt.dao.AddRequirmentDAO;
+import com.tyss.talenthunt.dto.AddRequirment;
+
+@Service
+public class AddRequirmentServiceImpl implements AddRequirmentServiceInterface{
+
+	private AddRequirmentDAO addDAO;
+	@Override
+	public boolean  addRequirment(AddRequirment addrequirment) {
+		
+		return addDAO.addRequirment(addrequirment);
+	}
+
+}

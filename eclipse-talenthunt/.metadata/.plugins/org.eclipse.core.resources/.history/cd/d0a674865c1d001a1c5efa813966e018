@@ -1,0 +1,15 @@
+package com.tyss.talenthunt.dto;
+
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class Response {
+
+	private int statuscode;
+	private String msg;
+	private String description;
+	//private String requirmentId;
+	private  List<AddRequirment> requirment;
+}
